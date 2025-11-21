@@ -3,6 +3,7 @@ import MainLayout from '../components/layout/MainLayout';
 import Dashboard from '../components/dashboard/Dashboard';
 import TransactionsPage from '../pages/TransactionsPage';
 import MerchantsPage from '../pages/MerchantsPage';
+import MerchantDetailPage from '../pages/MerchantDetailPage';
 
 const router = createBrowserRouter([
     {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
             {
                 path: 'merchants',
                 element: <MerchantsPage />,
+            },
+            {
+                path: 'merchants/:mchtCode',
+                element: <MerchantDetailPage />,
             },
         ],
     },
