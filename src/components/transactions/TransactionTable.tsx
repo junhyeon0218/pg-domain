@@ -1,8 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import type { Payment, PaymentStatus, PayType } from '../../types/api';
 
 interface TransactionTableProps {
   payments: Payment[];
+  merchantNameMap: Record<string, string>;
 }
 
 const statusMap: Record<PaymentStatus, string> = {
@@ -35,7 +37,7 @@ const getStatusBadge = (status: PaymentStatus) => {
   }
 };
 
-const TransactionTable: React.FC<TransactionTableProps> = ({ payments }) => {
+const TransactionTable: React.FC<TransactionTableProps> = ({ payments, merchantNameMap }) => {
   const formatCurrency = (amount: string) => {
     return new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(Number(amount));
   };
@@ -56,7 +58,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({ payments }) => {
         <thead className="bg-gray-50">
           <tr>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">결제일시</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">가맹점 코드</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">가맹점명</th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">주문번호</th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">결제수단</th>
             <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">금액</th>
@@ -67,7 +69,12 @@ const TransactionTable: React.FC<TransactionTableProps> = ({ payments }) => {
           {payments.map((payment) => (
             <tr key={payment.paymentCode} className="hover:bg-gray-50">
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{formatDate(payment.paymentAt)}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{payment.mchtCode}</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm">
+                <Link to={`/merchants/${payment.mchtCode}`}>
+                  <div className="text-gray-900 font-medium">{merchantNameMap[payment.mchtCode] || '알 수 없음'}</div>
+                  <div className="text-gray-500">{payment.mchtCode}</div>
+                </Link>
+              </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{payment.paymentCode}</td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{payTypeMap[payment.payType] || payment.payType}</td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right">{formatCurrency(payment.amount)}</td>
