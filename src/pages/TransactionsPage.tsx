@@ -29,13 +29,13 @@ const TransactionsPage: React.FC = () => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const [paymentsRes, merchantsRes] = await Promise.all([
-                    getPaymentsList(),
-                    getMerchantsList(),
-                ]);
+                const [paymentsRes, merchantsRes] = await Promise.all([getPaymentsList(), getMerchantsList()]);
 
                 if (paymentsRes.status === 200 && paymentsRes.data) {
-                    setAllPayments(paymentsRes.data);
+                    const sortedPayments = paymentsRes.data.sort(
+                        (a, b) => new Date(b.paymentAt).getTime() - new Date(a.paymentAt).getTime(),
+                    );
+                    setAllPayments(sortedPayments);
                 } else {
                     throw new Error(paymentsRes.message || 'Failed to fetch payments');
                 }
