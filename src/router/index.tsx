@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import MainLayout from '../components/layout/MainLayout';
-import Dashboard from '../components/dashboard/Dashboard';
+import DashboardPage from '../pages/DashboardPage';
 import TransactionsPage from '../pages/TransactionsPage';
 import MerchantsPage from '../pages/MerchantsPage';
 import MerchantDetailPage from '../pages/MerchantDetailPage';
@@ -12,7 +12,7 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <Dashboard />,
+                element: <DashboardPage />,
             },
             {
                 path: 'transactions',
