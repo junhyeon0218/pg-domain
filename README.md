@@ -1,73 +1,87 @@
-# React + TypeScript + Vite
+# AllPays PG 대시보드 과제
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 프로젝트 소개
 
-Currently, two official plugins are available:
+제공된 API를 활용하여 결제대행사(PG) 도메인에 특화된 대시보드 화면을 구현했습니다. 가맹점 및 거래 내역 데이터를 시각화하고 관리할 수 있는 기능을 제공합니다.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 주요 기능
 
-## React Compiler
+- **대시보드**:
+    - 주요 KPI (총 결제 금액, 총 결제 건수, 총 가맹점 수) 요약
+    - 일별 매출 추이 그래프
+    - 결제 수단별 비율
+    - 최근 거래 내역
+- **거래 내역 조회**:
+    - 다양한 필터 (검색어, 결제 상태, 결제 수단)
+    - 가맹점명 클릭 시 상세 페이지로 이동
+- **가맹점 조회**:
+    - 가맹점명 검색 및 상태 필터링
+    - 가맹점 클릭 시 상세 페이지로 이동
+- **가맹점 상세 페이지**:
+    - 가맹점 기본 정보
+    - 해당 가맹점의 총 거래 건수 및 총 거래 금액 요약
+    - 해당 가맹점의 전체 거래 내역
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+## 기술 스택
 
-## Expanding the ESLint configuration
+- **Frontend**: React 19, TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS
+- **API Client**: Axios
+- **Others**: Recharts (일별 매출 추이 그래프에 사용)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 기술 선택 이유
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **React 19 (Frontend Framework)**
+    - Next.js에서의 많은 기능을 사용하기보다, 해당 프로젝트의 경우 순수 React와 Vite 조합이 더 간결하고 효율적인 개발 환경을 제공한다고 판단했습니다.
+- **TypeScript (Language)**
+    - 개발 과정에서 코드의 안정성을 높이고 오류를 줄여 유지보수성을 높일 수 있어 사용했습니다.
+- **Vite (Build Tool)**
+    - 빠르고 효율적인 개발 서버와 빌드 속도를 제공해 사용했습니다.
+- **Tailwind CSS (Styling Framework)**
+    - 빠르고 일관된 UI 스타일링을 가능하게 하고, 높은 커스터마이징 기능을 제공하기에 사용했습니다. 또한 가장 익숙하기도 합니다.
+- **Axios (HTTP Client)**
+    - 자동 JSON 파싱, 간편한 에러 처리, 요청/응답 인터셉터 등 강력한 기능을 제공하여 개발 편의성을 높입니다. 현재 프로젝트의 단순한 API 호출은 fetch로도 가능하지만, 개발 편의성을 위해 Axios를 선택했습니다.
+- **Recharts (Charting Library)**
+    - React 컴포넌트 기반의 차트 라이브러리로, 대시보드 내 데이터 시각화를 쉽고 유연하게 구현하도록 도와줍니다.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 설치 및 실행 방법
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+**Node.js 20.x LTS** 환경에서의 동작을 기준으로 합니다.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+1.  **저장소 클론**:
+    ```bash
+    git clone [GitHub 레포지토리 주소]
+    cd allpays
+    ```
+2.  **의존성 설치**:
+    ```bash
+    npm install
+    ```
+3.  **환경 변수 설정**:
+    프로젝트 루트 경로에 `.env` 파일을 생성하고 해당 내용을 추가합니다.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+    ```
+    VITE_API_BASE_URL=https://recruit.paysbypays.com/api/v1
+    ```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+4.  **개발 서버 실행**:
+
+    ```bash
+    npm run dev
+    ```
+
+    위 명령 실행 후 브라우저에서 `http://localhost:5173` 로 접속하여 애플리케이션을 확인할 수 있습니다.
+
+## 디자인 의도 및 주요 UI/UX 포인트
+
+- **디자인 의도**: 운영자가 결제 현황과 거래 내역을 빠르고 효율적으로 파악할 수 있는 직관적인 대시보드를 목표로 했습니다. PG 도메인의 특성상 금액, 상태, 시간 정보의 중요성을 고려하여 정보 구조를 구성했습니다.
+- **주요 UI/UX 포인트**:
+    - **일관된 레이아웃**: 좌측 사이드바와 메인 컨텐츠 영역으로 구성된 레이아웃을 적용했습니다. 대시보드에서는 핵심 KPI와 추이 그래프를 상단에 배치하고, 상세 목록은 하단에 배치하여 정보의 중요도에 따라 배치했습니다.
+    - **가독성**:
+        - 금액은 `₩ 1,234,567` 형식으로 통일했습니다.
+        - 날짜 및 시간은 `YYYY-MM-DD HH:mm` 형식으로 통일했습니다.
+        - 결제 상태는 색상 배지를 사용하여 시각적으로 구분했습니다.
+    - **쉬운 탐색**: 가맹점 목록 및 거래 내역 목록에서 클릭 한 번으로 상세 정보 페이지로 이동할 수 있도록 연결성을 강화했습니다.
+    - **반응형 디자인**: Tailwind CSS를 활용하여 태블릿 및 작은 노트북 화면에서 레이아웃이 깨지지 않도록 기본적인 반응형을 고려했습니다. (모바일 화면에 대한 최적화는 제외했습니다.)
+    - **사용자 피드백**: 로딩 중, 에러 발생 시, 데이터가 없을 때 사용자에게 명확하게 표시합니다.
